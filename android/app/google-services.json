@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369672501596",
+    "project_id": "flutter-app-1b30d",
+    "storage_bucket": "flutter-app-1b30d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369672501596:android:34716f65954c8f5af7e999",
+        "android_client_info": {
+          "package_name": "com.example.boticapp_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369672501596-g4j2ioott5m620ve8abehhbippbas26l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFUovh_Kv5MBchyqgy_fCW3WBheIIaS-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369672501596-g4j2ioott5m620ve8abehhbippbas26l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
