@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:boticapp_flutter/screens/screens/home.dart';
 import 'package:boticapp_flutter/screens/screens/myaccount.dart';
 import 'package:flutter/material.dart';
+import 'package:boticapp_flutter/widgets/item_navigation.dart';
 
 class Sidebar extends StatefulWidget {
   Sidebar({Key? key}) : super(key: key);
@@ -53,7 +54,104 @@ class _SidebarState extends State<Sidebar> {
               Expanded(
                 child: ListView(
                   children: [
-                    _itemNavigationWidget(
+                    ItemNavigationWidget(
+                      icon: Icons.home,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Home",
+                      function: (){
+                        setState(() {
+                          pos = 0;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.account_box,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Mi cuenta",
+                      function: (){
+                        setState(() {
+                          pos = 1;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.add_shopping_cart,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Productos",
+                      function: (){
+                        setState(() {
+                          pos = 2;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.inventory,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Control de Inventario",
+                      function: (){
+                        setState(() {
+                          pos = 3;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.attach_money_sharp,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Control de ventas",
+                      function: (){
+                        setState(() {
+                          pos = 4;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.supervised_user_circle,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Contacto",
+                      function: (){
+                        setState(() {
+                          pos = 5;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.local_activity_rounded,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Boticas",
+                      function: (){
+                        setState(() {
+                          pos = 6;
+                          value = 0;
+                        });
+                      }
+                    ),
+                    ItemNavigationWidget(
+                      icon: Icons.logout,
+                      colorIcon: Colors.white,
+                      colorText: Colors.white,
+                      nombre: "Log out",
+                      function: (){
+                        Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
+                        setState(() {
+                          //pos = 7;
+                          value = 0;
+                        });
+                      }
+                    )
+                    /*_itemNavigationWidget(
                         0, Icons.home, "Home", Colors.white, Colors.white),
                     _itemNavigationWidget(1, Icons.account_box, "Mi Cuenta",
                         Colors.white, Colors.white),
@@ -68,7 +166,7 @@ class _SidebarState extends State<Sidebar> {
                     _itemNavigationWidget(6, Icons.local_activity_rounded,
                         "Boticas", Colors.white, Colors.white),
                     _itemNavigationWidget(
-                        7, Icons.logout, "Log out", Colors.white, Colors.white),
+                        7, Icons.logout, "Log out", Colors.white, Colors.white),*/
                   ],
                 ),
               )
@@ -125,8 +223,7 @@ class _SidebarState extends State<Sidebar> {
       case 1:
         return MyAccount();
     }
-  }
-
+  }/*
   _itemNavigationWidget(int posItem, IconData icon, String nombre,
       Color colorText, Color colorIcon) {
     return ListTile(
@@ -149,5 +246,5 @@ class _SidebarState extends State<Sidebar> {
         style: TextStyle(color: colorText),
       ),
     );
-  }
+  }*/
 }
