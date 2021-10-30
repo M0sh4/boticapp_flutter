@@ -13,8 +13,8 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  int pos = 0;
-  double value = 0;
+  int _pos = 0;
+  double _value = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +61,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Home",
                       function: (){
                         setState(() {
-                          pos = 0;
-                          value = 0;
+                          _pos = 0;
+                          _value = 0;
                         });
                       }
                     ),
@@ -73,8 +73,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Mi cuenta",
                       function: (){
                         setState(() {
-                          pos = 1;
-                          value = 0;
+                          _pos = 1;
+                          _value = 0;
                         });
                       }
                     ),
@@ -85,8 +85,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Productos",
                       function: (){
                         setState(() {
-                          pos = 2;
-                          value = 0;
+                          _pos = 2;
+                          _value = 0;
                         });
                       }
                     ),
@@ -97,8 +97,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Control de Inventario",
                       function: (){
                         setState(() {
-                          pos = 3;
-                          value = 0;
+                          _pos = 3;
+                          _value = 0;
                         });
                       }
                     ),
@@ -109,8 +109,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Control de ventas",
                       function: (){
                         setState(() {
-                          pos = 4;
-                          value = 0;
+                          _pos = 4;
+                          _value = 0;
                         });
                       }
                     ),
@@ -121,8 +121,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Contacto",
                       function: (){
                         setState(() {
-                          pos = 5;
-                          value = 0;
+                          _pos = 5;
+                          _value = 0;
                         });
                       }
                     ),
@@ -133,8 +133,8 @@ class _SidebarState extends State<Sidebar> {
                       nombre: "Boticas",
                       function: (){
                         setState(() {
-                          pos = 6;
-                          value = 0;
+                          _pos = 6;
+                          _value = 0;
                         });
                       }
                     ),
@@ -144,28 +144,28 @@ class _SidebarState extends State<Sidebar> {
                       colorText: Colors.white,
                       nombre: "Log out",
                       function: (){
-                        Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
                         setState(() {
-                          //pos = 7;
-                          value = 0;
+                          //_pos = 7;
+                          _value = 0;
                         });
                       }
                     )
-                    /*_itemNavigationWidget(
+                    /*__itemNavigationWidget(
                         0, Icons.home, "Home", Colors.white, Colors.white),
-                    _itemNavigationWidget(1, Icons.account_box, "Mi Cuenta",
+                    __itemNavigationWidget(1, Icons.account_box, "Mi Cuenta",
                         Colors.white, Colors.white),
-                    _itemNavigationWidget(2, Icons.add_shopping_cart,
+                    __itemNavigationWidget(2, Icons.add_shopping_cart,
                         "Productos", Colors.white, Colors.white),
-                    _itemNavigationWidget(3, Icons.inventory,
+                    __itemNavigationWidget(3, Icons.inventory,
                         "Control de Inventario", Colors.white, Colors.white),
-                    _itemNavigationWidget(4, Icons.attach_money_sharp,
+                    __itemNavigationWidget(4, Icons.attach_money_sharp,
                         "Control de Ventas", Colors.white, Colors.white),
-                    _itemNavigationWidget(5, Icons.supervised_user_circle,
+                    __itemNavigationWidget(5, Icons.supervised_user_circle,
                         "Contacto", Colors.white, Colors.white),
-                    _itemNavigationWidget(6, Icons.local_activity_rounded,
+                    __itemNavigationWidget(6, Icons.local_activity_rounded,
                         "Boticas", Colors.white, Colors.white),
-                    _itemNavigationWidget(
+                    __itemNavigationWidget(
                         7, Icons.logout, "Log out", Colors.white, Colors.white),*/
                   ],
                 ),
@@ -175,7 +175,7 @@ class _SidebarState extends State<Sidebar> {
         ),
       ),
       TweenAnimationBuilder(
-          tween: Tween<double>(begin: 0, end: value),
+          tween: Tween<double>(begin: 0, end: _value),
           duration: Duration(milliseconds: 500),
           curve: Curves.easeIn,
           builder: (_, double val, __) {
@@ -192,7 +192,7 @@ class _SidebarState extends State<Sidebar> {
                     icon: Icon(Icons.view_sidebar),
                     onPressed: ()=>{
                       setState((){
-                        value = value == 0 ? 1 : 0;
+                        _value = _value == 0 ? 1 : 0;
                       })
                     },
                   )
@@ -200,7 +200,7 @@ class _SidebarState extends State<Sidebar> {
                 body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [_navigateWidget(pos)],
+                    children: [_navigateWidget(_pos)],
                   ),
                 ),
               ),
@@ -209,31 +209,31 @@ class _SidebarState extends State<Sidebar> {
       GestureDetector(
         onHorizontalDragUpdate: (e) {
             setState(() {
-              value = e.delta.dx > 0 ? 1 : 0;
+              _value = e.delta.dx > 0 ? 1 : 0;
             });
         }
       ),
     ]));
   }
 
-  _navigateWidget(int pos) {
-    switch (pos) {
+  _navigateWidget(int _pos) {
+    switch (_pos) {
       case 0:
         return Home();
       case 1:
         return MyAccount();
     }
-  }/*
-  _itemNavigationWidget(int posItem, IconData icon, String nombre,
+  }
+  /*_itemNavigationWidget(int _posItem, IconData icon, String nombre,
       Color colorText, Color colorIcon) {
     return ListTile(
       onTap: () => {
-        if(posItem == 7){
+        if(_posItem == 7){
           Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false)
         }else{
           setState(() {
-          pos = posItem;
-          value = 0;
+          _pos = _posItem;
+          _value = 0;
          })
         }
       },
@@ -245,6 +245,6 @@ class _SidebarState extends State<Sidebar> {
         nombre,
         style: TextStyle(color: colorText),
       ),
-    );
-  }*/
-}
+    );*/
+    
+  }

@@ -18,7 +18,7 @@ class ItemNavigationWidget extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
       return ListTile(
-      onTap: () => function,
+      onTap: () => function.call(),
       leading: Icon(
         icon,
         color: colorIcon,
