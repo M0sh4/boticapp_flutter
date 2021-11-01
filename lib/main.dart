@@ -1,4 +1,5 @@
 import 'package:boticapp_flutter/screens/Auth/sign-in.dart';
+import 'package:boticapp_flutter/screens/Auth/sign-up.dart';
 import 'package:boticapp_flutter/screens/Sidebar/sidebar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: SignIn(),
       routes: {
-        '/home': (context) => Sidebar()
+        '/home': (context) => Sidebar(),
+        '/signup': (context) => SignUp()
         //'/': (context) => SignIn()
       },
     );

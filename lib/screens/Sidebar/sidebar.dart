@@ -4,6 +4,7 @@ import 'package:boticapp_flutter/screens/screens/home.dart';
 import 'package:boticapp_flutter/screens/screens/myaccount.dart';
 import 'package:flutter/material.dart';
 import 'package:boticapp_flutter/widgets/item_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Sidebar extends StatefulWidget {
   Sidebar({Key? key}) : super(key: key);
@@ -143,8 +144,10 @@ class _SidebarState extends State<Sidebar> {
                       colorIcon: Colors.white,
                       colorText: Colors.white,
                       nombre: "Log out",
-                      function: (){
+                      function: () async {
                         Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.remove('key');
                         setState(() {
                           //_pos = 7;
                           _value = 0;
