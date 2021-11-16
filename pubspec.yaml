@@ -26,6 +26,7 @@ dependencies:
   firebase_database: ^7.2.1
   shared_preferences: ^2.0.8
   flutter_svg: any
+  fluttertoast: ^8.0.8
   flutter:
     sdk: flutter
 

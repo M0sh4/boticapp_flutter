@@ -1,9 +1,9 @@
-import 'package:boticapp_flutter/domain/entities/UsuarioModel.dart';
+import 'package:boticapp_flutter/domain/entities/UserModel.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class UsuarioService {
+class UserService {
   final db = FirebaseDatabase.instance.reference();
-  Future createUser(UsuarioModel usuario) async {
+  Future createUser(UserModel usuario) async {
     try {
       String key = db.child("Usuarios").push().key;
       return db.child("Usuarios").child(key).set({
@@ -22,15 +22,14 @@ class UsuarioService {
   }
 
   
-  Future<List<UsuarioModel>> readUser(UsuarioModel usuario) async {
-    List<UsuarioModel> userList = [];
+  Future<List<UserModel>> readUser(UserModel usuario) async {
+    List<UserModel> userList = [];
     try {
-      UsuarioModel user;
+      UserModel user;
       await db.child("Usuarios").get()
       .then((snapshot) => {
           snapshot.value.forEach((index,data){
-            user =  new UsuarioModel();
-            user.UsuarioModelConst(data['dniUsu'], data['nombreUsu'], 
+            user =  new UserModel(data['dniUsu'], data['nombreUsu'], 
             data['apellidosUsu'], data['emailUsu'], data['telefonoUsu'], data['passwordUsu']);
             userList.add(user);
           })

@@ -1,10 +1,11 @@
-import 'package:boticapp_flutter/data/firebase/UsuarioService.dart';
-import 'package:boticapp_flutter/domain/entities/UsuarioModel.dart';
+import 'package:boticapp_flutter/data/firebase/UserService.dart';
+import 'package:boticapp_flutter/domain/entities/UserModel.dart';
 import 'package:boticapp_flutter/widgets/RoundedButton.dart';
 import 'package:boticapp_flutter/widgets/background_screen.dart';
 import 'package:boticapp_flutter/widgets/rounded_input_field.dart';
 import 'package:boticapp_flutter/widgets/rounded_input_password.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
@@ -14,10 +15,17 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  UsuarioService db = new UsuarioService();
-  UsuarioModel usu = new UsuarioModel();
+  UserService db = new UserService();
+  UserModel usu = UserModel.empty();
   bool isLoading =  false;
   bool isEnabled = true;
+  late FToast fToast;
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -95,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                     isEnabled= false;
                 }),
                 Navigator.of(context)
-                 .pushNamedAndRemoveUntil("/", (route) => false),
+                 .pushNamedAndRemoveUntil("/", (route) => true),
               });
             }
           },

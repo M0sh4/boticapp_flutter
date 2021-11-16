@@ -1,4 +1,4 @@
-class UsuarioModel {
+class UserModel {
   String dniUsu = "";
   String nombreUsu = "";
   String apellidosUsu = "";
@@ -6,7 +6,8 @@ class UsuarioModel {
   String telefonoUsu = "";
   String passwordUsu = "";
 
-  UsuarioModelConst(String dniUsu, String nombreUsu, String apellidosUsu,
+  UserModel.empty();
+  UserModel(String dniUsu, String nombreUsu, String apellidosUsu,
     String emailUsu, String telefonoUsu, String passwordUsu){
       this.dniUsu = dniUsu;
       this.nombreUsu = nombreUsu;

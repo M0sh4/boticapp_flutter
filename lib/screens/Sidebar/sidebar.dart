@@ -14,8 +14,15 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
+  int tipoUsu = 0;
+  String nombre = "";
   int _pos = 0;
   double _value = 0;
+  @override
+  void initState() {
+    super.initState();
+    _getTipoUser();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +48,14 @@ class _SidebarState extends State<Sidebar> {
                   CircleAvatar(
                     radius: 50.0,
                     backgroundImage: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg"),
+                        tipoUsu==2?"https://images.vexels.com/media/users/3/144174/isolated/lists/5652866ea35638b379a776d29dbf2a9f-personaje-de-dibujos-animados-medico.png"
+                        :"https://e7.pngegg.com/pngimages/970/388/png-clipart-profession-job-computer-icons-user-profile-avatar-doctor-cartoon-author-head.png"),
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
                   Text(
-                    "Eren Jager",
+                    nombre,
                     style: TextStyle(color: Colors.white, fontSize: 20.0),
                   ),
                 ],
@@ -65,7 +73,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 0;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: true,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.account_box,
@@ -77,7 +86,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 1;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: tipoUsu==1?true:false,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.add_shopping_cart,
@@ -89,7 +99,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 2;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: true,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.inventory,
@@ -101,7 +112,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 3;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: tipoUsu==2?true:false,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.attach_money_sharp,
@@ -113,7 +125,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 4;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: tipoUsu==2?true:false,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.supervised_user_circle,
@@ -125,7 +138,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 5;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: true,
                     ),
                     ItemNavigationWidget(
                       icon: Icons.local_activity_rounded,
@@ -137,7 +151,8 @@ class _SidebarState extends State<Sidebar> {
                           _pos = 6;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: tipoUsu==1?true:false
                     ),
                     ItemNavigationWidget(
                       icon: Icons.logout,
@@ -148,11 +163,13 @@ class _SidebarState extends State<Sidebar> {
                         Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         prefs.remove('key');
+                        prefs.clear();
                         setState(() {
                           //_pos = 7;
                           _value = 0;
                         });
-                      }
+                      },
+                      isVisible: true,
                     )
                     /*__itemNavigationWidget(
                         0, Icons.home, "Home", Colors.white, Colors.white),
@@ -226,6 +243,14 @@ class _SidebarState extends State<Sidebar> {
       case 1:
         return MyAccount();
     }
+  }
+
+  _getTipoUser() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      tipoUsu = pref.getInt('tipoUsu')!;
+      nombre = pref.getString('nombre')!;
+    });
   }
   /*_itemNavigationWidget(int _posItem, IconData icon, String nombre,
       Color colorText, Color colorIcon) {

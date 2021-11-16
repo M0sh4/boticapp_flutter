@@ -1,11 +1,15 @@
-import 'package:boticapp_flutter/data/firebase/UsuarioService.dart';
 import 'package:boticapp_flutter/data/firebase/auth.dart';
-import 'package:boticapp_flutter/domain/entities/UsuarioModel.dart';
+import 'package:boticapp_flutter/domain/entities/BoticaModel.dart';
+import 'package:boticapp_flutter/domain/entities/UserModel.dart';
+import 'package:boticapp_flutter/domain/repositories/BoticaRepository.dart';
+import 'package:boticapp_flutter/domain/repositories/UserRepository.dart';
 import 'package:boticapp_flutter/widgets/RoundedButton.dart';
 import 'package:boticapp_flutter/widgets/background_screen.dart';
 import 'package:boticapp_flutter/widgets/rounded_input_field.dart';
 import 'package:boticapp_flutter/widgets/rounded_input_password.dart';
+import 'package:boticapp_flutter/widgets/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,13 +23,29 @@ class _SignInState extends State<SignIn> {
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
-  UsuarioService userS = new UsuarioService();
+  UserRepository userRepository= new UserRepository();
+  BoticaRepository boticaRepository= new BoticaRepository();
   var email =  '';
   var password = '';
+  int tipoUsu = 0;
   bool isLoading = false;
   bool isEnabled = true;
-  UsuarioModel userM =  new UsuarioModel();
-  List<UsuarioModel> userList = [];
+  UserModel userM = UserModel.empty();
+  BoticaModel boticaM = BoticaModel.empty();
+  List<UserModel> userList = [];
+  late FToast fToast = FToast();
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+    _getPref();
+  }
+  Widget toast = ToastWidget(
+    msg: "Usuario y/o Contraseña incorrecta", 
+    color: Colors.redAccent,
+    icon: Icon(Icons.dangerous_rounded),
+  );
   var emailUsu = new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -65,23 +85,54 @@ class _SignInState extends State<SignIn> {
                 isLoading= true;
                 isEnabled= false;
               });
-              await userS.readUser(userM).then((user)=> user.forEach((e) => {
+              await userRepository.readUserRepo(userM).then((user)=> user.forEach((e) => {
                 if(e.emailUsu == email && e.passwordUsu == password){
-                    userM.UsuarioModelConst(e.dniUsu, e.nombreUsu, e.apellidosUsu
+                    userM =  new UserModel(e.dniUsu, e.nombreUsu, e.apellidosUsu
                     , e.emailUsu, e.telefonoUsu, e.passwordUsu),    
                     setState(() {
                       isLoading= false;
                       isEnabled= true;
                     }),
-                    prefs.then((value) => value.setString('key', e.dniUsu)),
+                    prefs.then((value) => {
+                      value.setString('key', e.dniUsu),
+                      value.setInt('tipoUsu', 1),
+                      value.setString('nombre', userM.nombreUsu  +" " + userM.apellidosUsu )
+                    }),
                     Navigator.of(context)
                       .pushNamedAndRemoveUntil("/home", (route) => false)
                 }
               }));
+              if(userM.dniUsu == ''){
+                await boticaRepository.readBotica().then((botica) => botica.forEach((e) =>{ 
+                  if(e.correo == email && e.password == password){
+                    boticaM = new BoticaModel(e.correo, e.latitud, e.longitud, e.nomBotica, e.password, e.ruc, e.telefono),
+                    setState((){
+                      isLoading = false;
+                      isEnabled = true;
+                    }),
+                    prefs.then((value) => {
+                      value.setString('key', boticaM.ruc), 
+                      value.setInt('tipoUsu', 2),
+                      value.setString('nombre', boticaM.nomBotica)
+                    }),
+                    Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/home", (route) => false)
+                  },
+                  print(e.correo + "_" + e.password)
+                }));
+              }
               setState(() {
                 isLoading= false;
                 isEnabled= true;
               });
+              if(userM.dniUsu == '' && boticaM.ruc == ''){
+                fToast.showToast(
+                child: toast,
+                gravity: ToastGravity.BOTTOM,
+                toastDuration: Duration(seconds: 2),
+                fadeDuration: 350
+                );
+              }
             }
           },
           isLoading: isLoading,
@@ -107,7 +158,7 @@ class _SignInState extends State<SignIn> {
           GestureDetector(
               onTap: () {
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil("/signup", (route) => false);
+                    .pushNamedAndRemoveUntil("/signup", (route) => true);
               },
               child: Text(
                 "Create una",
@@ -118,5 +169,13 @@ class _SignInState extends State<SignIn> {
         ],
       )
     ])));
+  }
+
+  _getPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    tipoUsu = pref.getInt('tipoUsu')!;
+    if(tipoUsu != 0){
+      Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
+    }
   }
 }

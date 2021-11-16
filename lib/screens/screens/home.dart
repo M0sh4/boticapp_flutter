@@ -9,6 +9,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String dni = "";
+  int tipoUsu = 0;
   
   @override
   void initState(){
@@ -18,12 +19,15 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(dni);
+    return Container(
+      child: Text(dni+"_"+tipoUsu.toString())
+      );
   }
   void getDni() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       dni = prefs.getString('key')!;
+      tipoUsu = prefs.getInt('tipoUsu')!;
     });
   }
 }
